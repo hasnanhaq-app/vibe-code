@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia';
-import { registerUser, loginUser } from '../services/users-service';
+import { registerUser, loginUser, getCurrentUser } from '../services/users-service';
 
 export const usersRoute = new Elysia({ prefix: '/api/users' })
   .post('/', async ({ body, set }) => {
@@ -64,4 +64,39 @@ export const usersRoute = new Elysia({ prefix: '/api/users' })
       email: t.String(),
       password: t.String()
     })
+  })
+  .get('/current', async ({ request, set }) => {
+    try {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        set.status = 401;
+        return {
+          error: 'Unauthorized',
+          message: 'Token tidak valid',
+          code: '401'
+        };
+      }
+
+      const token = authHeader.substring(7);
+      const userData = await getCurrentUser(token);
+
+      return {
+        data: userData
+      };
+    } catch (error: any) {
+      if (error.code === '401') {
+        set.status = 401;
+        return {
+          error: 'Unauthorized',
+          message: 'Token tidak valid',
+          code: '401'
+        };
+      }
+
+      set.status = 500;
+      return {
+        error: 'Internal Server Error',
+        message: error.message || 'An unexpected error occurred'
+      };
+    }
   });
