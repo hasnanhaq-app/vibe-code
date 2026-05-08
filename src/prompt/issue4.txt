@@ -1,0 +1,41 @@
+buatkan issue.md yang berisi perencanaan untuk nanti diimplementasikan oleh junior programmer atau ai model yang lebih murah.
+
+Isi dari planningnya adalah sebagai berikut:
+
+buatkan API untuk get user saat ini yang sedang login
+
+Endpoint: GET /api/users/current
+
+Headers:
+{
+  "Authorization": "Bearer {token}" // {token} didapat saat login di tabel sessions 
+}
+
+
+Response Body Success:
+{
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "[EMAIL_ADDRESS]",
+    "created_at": "2022-01-01T00:00:00.000Z" 
+  }
+}
+
+Response Error:
+{
+  "error": "Unauthorized",
+  "message": "Token tidak valid",
+  "code": "401"
+}
+
+
+Struktur folder di dalam src
+- routes : ini berisi routing untuk ElysiaJS
+- services : ini berisi logic bisnis aplikasi
+
+Struktur file
+- routes : menggunakan format misal users-route.ts
+- services : menggunakan format misal users-service.ts  
+
+Jelaskan tahapan-tahapan yang harus dilakukan untuk mengimplementasikan fitur ini, anggap nanti yang mengimplementasikan adalah junior programmer atau ai model yang lebih murah. Jadi buatlah issue.md yang berisi perencanaan untuk nanti diimplementasikan oleh junior programmer atau ai model yang lebih murah.    

@@ -79,3 +79,37 @@ export const loginUser = async (credentials: any) => {
 
   return session;
 };
+
+export const getCurrentUser = async (token: string) => {
+  // Find session
+  const session = await db.query.sessions.findFirst({
+    where: eq(sessions.token, token),
+  });
+
+  if (!session) {
+    const error = new Error('Token tidak valid');
+    (error as any).code = '401';
+    throw error;
+  }
+
+  // Find user
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, session.userId),
+  });
+
+  if (!user) {
+    const error = new Error('Token tidak valid');
+    (error as any).code = '401';
+    throw error;
+  }
+
+  const { password: _, ...userWithoutPassword } = user;
+  
+  // Format keys to snake_case as requested in response
+  return {
+    id: userWithoutPassword.id,
+    name: userWithoutPassword.name,
+    email: userWithoutPassword.email,
+    created_at: userWithoutPassword.createdAt,
+  };
+};
