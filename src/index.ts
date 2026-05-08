@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 import { db } from './db';
 import { users } from './db/schema';
+import { usersRoute } from './routes/users-route';
 
 const app = new Elysia()
   .get('/', () => 'Welcome to Vibe Code API')
@@ -19,6 +20,7 @@ const app = new Elysia()
       };
     }
   })
+  .use(usersRoute)
   .listen(process.env.PORT || 3000);
 
 console.log(
