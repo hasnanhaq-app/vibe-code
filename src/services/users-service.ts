@@ -113,3 +113,21 @@ export const getCurrentUser = async (token: string) => {
     created_at: userWithoutPassword.createdAt,
   };
 };
+
+export const logoutUser = async (token: string) => {
+  // Find session
+  const session = await db.query.sessions.findFirst({
+    where: eq(sessions.token, token),
+  });
+
+  if (!session) {
+    const error = new Error('Token tidak valid');
+    (error as any).code = '401';
+    throw error;
+  }
+
+  // Delete session
+  await db.delete(sessions).where(eq(sessions.token, token));
+  
+  return true;
+};
