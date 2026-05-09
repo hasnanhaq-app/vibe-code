@@ -81,10 +81,12 @@ export const loginUser = async (credentials: any) => {
 };
 
 export const getCurrentUser = async (token: string) => {
+  console.log('Searching for token:', token);
   // Find session
   const session = await db.query.sessions.findFirst({
     where: eq(sessions.token, token),
   });
+  console.log('Session found:', session);
 
   if (!session) {
     const error = new Error('Token tidak valid');
@@ -115,19 +117,15 @@ export const getCurrentUser = async (token: string) => {
 };
 
 export const logoutUser = async (token: string) => {
-  // Find session
-  const session = await db.query.sessions.findFirst({
-    where: eq(sessions.token, token),
-  });
-
-  if (!session) {
+  // Delete session directly to save a round-trip
+  const [result] = await db.delete(sessions).where(eq(sessions.token, token));
+  
+  // result is a ResultSetHeader in mysql2
+  if (result.affectedRows === 0) {
     const error = new Error('Token tidak valid');
     (error as any).code = '401';
     throw error;
   }
 
-  // Delete session
-  await db.delete(sessions).where(eq(sessions.token, token));
-  
   return true;
 };
