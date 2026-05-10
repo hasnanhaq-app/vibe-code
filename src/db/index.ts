@@ -9,4 +9,8 @@ const connection = await mysql.createConnection({
   database: process.env.DB_NAME || 'vibe_db',
 });
 
-export const db = drizzle(connection, { schema, mode: 'default' });
+export const db = drizzle(connection, { 
+  schema, 
+  mode: 'default',
+  logger: process.env.NODE_ENV === 'development'
+});
