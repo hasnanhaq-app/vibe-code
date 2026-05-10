@@ -20,6 +20,23 @@ const app = new Elysia()
       };
     }
   })
+  .onError(({ code, error, set }) => {
+    const isProd = process.env.NODE_ENV === 'production';
+    
+    if (code === 'NOT_FOUND') {
+      set.status = 404;
+      return { error: 'Not Found', message: 'Route tidak ditemukan' };
+    }
+    
+    // Default to 500 if status is not already set by a specific handler
+    if (set.status === 200) set.status = 500;
+    
+    return {
+      error: 'Internal Server Error',
+      message: isProd ? 'Terjadi kesalahan pada server' : error.message,
+      stack: isProd ? undefined : error.stack
+    };
+  })
   .use(usersRoute)
   .listen(process.env.PORT || 3000);
 

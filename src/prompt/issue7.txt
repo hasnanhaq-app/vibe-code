@@ -1,0 +1,17 @@
+buatkan issue.md pada folder src/prompt/ dengan nama file "issue" + [ISSUE_NUMBER + 1] + ".md"
+misalnya issue tertinggi saat ini adalah issue4.md, maka buatlah issue5.md 
+
+file issue.md berisi perencanaan untuk nanti diimplementasikan oleh junior programmer atau ai model yang lebih murah.
+
+Isi dari planningnya adalah sebagai berikut:
+
+Buatkan unit test untuk semua API yang tersedia
+simpan di folder test, menggunakan bun test
+
+setiap skenario, hapus data terlebih dahulu agar konsisten
+
+buatkan sekenario test per API secara lengkap
+
+Jangan buatkan terlalu detail instruksinya, cukup buatkan planningnya secara garis besar saja
+
+Anggap nanti yang mengimplementasikan adalah junior programmer atau ai model yang lebih murah. Jadi buatlah issue.md yang berisi perencanaan untuk nanti diimplementasikan oleh junior programmer atau ai model yang lebih murah.    
