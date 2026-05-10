@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
 
-export const authMiddleware = new Elysia()
+export const authMiddleware = (app: Elysia) => app
   .derive(({ headers }) => {
     const authHeader = headers['authorization'];
     if (authHeader && authHeader.startsWith('Bearer ')) {
